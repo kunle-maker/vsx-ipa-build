@@ -8,12 +8,12 @@ jobs:
       
       - name: Install CocoaPods
         run: |
-          cd VesselX
+          cd src
           pod install
           
       - name: Build IPA
         run: |
-          cd VesselX
+          cd src
           xcodebuild -workspace VesselX.xcworkspace -scheme VesselX -configuration Release archive -archivePath build/VesselX.xcarchive
           mkdir -p build/Payload
           cp -r build/VesselX.xcarchive/Products/Applications/VesselX.app build/Payload/
@@ -23,4 +23,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: VesselX.ipa
-          path: VesselX/build/VesselX.ipa
+          path: src/build/VesselX.ipa
