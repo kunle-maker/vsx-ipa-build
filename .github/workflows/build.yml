@@ -1,0 +1,21 @@
+name: Build IPA
+on: [push]
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install dependencies
+        run: |
+          cd VesselX
+          pod install
+      - name: Build IPA
+        run: |
+          cd VesselX
+          xcodebuild -workspace VesselX.xcworkspace -scheme VesselX -configuration Release archive -archivePath build/VesselX.xcarchive
+          xcodebuild -exportArchive -archivePath build/VesselX.xcarchive -exportPath build -exportOptionsPlist exportOptions.plist
+      - name: Upload IPA
+        uses: actions/upload-artifact@v3
+        with:
+          name: VesselX.ipa
+          path: build/*.ipa
