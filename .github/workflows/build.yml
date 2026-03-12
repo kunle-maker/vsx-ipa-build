@@ -11,13 +11,13 @@ jobs:
           cd src
           pod install
           
-      - name: Build IPA
-  run: |
-    cd src
-    xcodebuild -workspace VesselX.xcworkspace -scheme VesselX -configuration Release archive -archivePath build/VesselX.xcarchive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
-    mkdir -p build/Payload
-    cp -r build/VesselX.xcarchive/Products/Applications/VesselX.app build/Payload/
-    cd build && zip -r VesselX.ipa Payload
+      - name: Build IPA (unsigned)
+        run: |
+          cd src
+          xcodebuild -workspace VesselX.xcworkspace -scheme VesselX -configuration Release archive -archivePath build/VesselX.xcarchive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
+          mkdir -p build/Payload
+          cp -r build/VesselX.xcarchive/Products/Applications/VesselX.app build/Payload/
+          cd build && zip -r VesselX.ipa Payload
           
       - name: Upload IPA
         uses: actions/upload-artifact@v4
